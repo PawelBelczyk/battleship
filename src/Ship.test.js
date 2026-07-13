@@ -16,3 +16,25 @@ test("hit() increases the number of hits", () => {
 
     expect(ship.hits).toBe(1);
 });
+
+
+test("isSunk() returns false when the ship is not sunk", ()=> {
+    const ship = new Ship(3);
+
+    ship.hit();
+
+    expect(ship.isSunk()).toBe(false);
+});
+
+test("isSunk() returns true when the ship is sunk", () => {
+    const ship = new Ship(4);
+
+    ship.hit();
+    ship.hit();
+    ship.hit();
+    ship.hit();
+
+    expect(ship.isSunk()).toBe(true);
+});
+
+
