@@ -8,3 +8,11 @@ test("creates a ship with the correct length and 0 hits", () => {
     expect(ship.length).toBe(3);
     expect(ship.hits).toBe(0);
 });
+
+test("hit() increases the number of hits", () => {
+    const ship = new Ship(3);
+
+    ship.hit();
+
+    expect(ship.hits).toBe(1);
+});
