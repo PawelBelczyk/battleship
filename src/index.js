@@ -2,6 +2,9 @@ import { player, computer, playerAttack } from "./game.js";
 import { renderBoards } from "./dom.js";
 
 
+let gameOver = false;
+
+
 const boards = document.querySelector("#boards");
 
 
@@ -31,6 +34,11 @@ function computerTurn() {
 function handlePlayerAttack(coordinates) {
 
  
+  if(gameOver) {
+    return;
+  }
+
+
     const attackSuccessful = playerAttack(coordinates);
 
     if (!attackSuccessful) {
@@ -50,6 +58,10 @@ function handlePlayerAttack(coordinates) {
 
         message.textContent = "🏆 You win!";
       message.classList.add("win");
+
+      gameOver = true;
+
+      return;
   }
 
 
@@ -69,6 +81,9 @@ function handlePlayerAttack(coordinates) {
 
         message.textContent = "💀 Computer wins!";
       message.classList.add("lose");
+
+      gameOver = true;
+      return;
   }
 
 
