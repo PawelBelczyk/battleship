@@ -5,6 +5,15 @@ import { renderBoards } from "./dom.js";
 const boards = document.querySelector("#boards");
 
 
+const newGameButton = document.querySelector("#new-game");
+
+newGameButton.addEventListener("click", () => {
+  location.reload();
+});
+
+
+
+
 
 function computerTurn() {
 
