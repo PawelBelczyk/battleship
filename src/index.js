@@ -1,135 +1,130 @@
-import { player, computer, playerAttack } from "./game.js";
+import GameController from "./GameController.js";
 import { renderBoards } from "./dom.js";
-import { getSmartMove } from "./ai.js";
 
-
-let gameOver = false;
-let revealComputerShips = false;
 
 const boards = document.querySelector("#boards");
 
+const message = document.querySelector("#message");
 
 const newGameButton = document.querySelector("#new-game");
 
 
-const message = document.querySelector("#message");
+const game = new GameController();
+
+
+
+let gameOver = false;
+
+
 
 newGameButton.addEventListener("click", () => {
-  location.reload();
+    location.reload();
 });
 
 
 
 
 
-function computerTurn() {
-
-const move = getSmartMove(computer);
-
-
-  const result = player.gameboard.receiveAttack(move);
-
-
-  console.log("computer:", move);
-  console.log("result:", result);
-
-      if (result === "hit") {
-
-          computer.successfulHits.push(move);
-
-      }
-
-
-      if (result === "sunk") {
-
-          computer.clearHits();
-
-      }
-}
-
-
-
 function handlePlayerAttack(coordinates) {
 
- 
-  if(gameOver) {
-    return;
-  }
-
-
-    const attackSuccessful = playerAttack(coordinates);
-
-    if (!attackSuccessful) {
-      return;
+    if (gameOver) {
+        return;
     }
 
 
-  // sprawdzamy czy gracz wygrał
-  if (computer.gameboard.allShipsSunk()) {
-    
-    gameOver = true;
+    const result =
+        game.playerAttack(coordinates);
 
-    revealComputerShips = true;
-    
-    renderBoards(
-      boards,
-      player,
-      computer,
-    null,
-    true
-    );
+
+    // kliknięcie już zaatakowanego pola
+    if (result === false) {
+        return;
+    }
+
+
+
+    const winner =
+        game.checkWinner();
+
+
+
+    if (winner === "player") {
+
+        gameOver = true;
+
+
+        renderBoards(
+            boards,
+            game.player,
+            game.computer,
+            null,
+            true
+        );
+
 
         message.textContent = "🏆 You win!";
-      message.classList.add("win");
-
-      
-
-      return;
-  }
+        message.classList.add("win");
 
 
-  // ruch komputera
-  computerTurn();
+        return;
+    }
 
 
-  // sprawdzamy czy komputer wygrał
-  if (player.gameboard.allShipsSunk()) {
 
-    revealComputerShips = true;
+    // ruch komputera
+
+    game.computerTurn();
+
+
+
+    const computerWinner =
+        game.checkWinner();
+
+
+
+    if (computerWinner === "computer") {
+
+        gameOver = true;
+
+
+        renderBoards(
+            boards,
+            game.player,
+            game.computer,
+            null,
+            true
+        );
+
+
+        message.textContent =
+            "💀 Computer wins!";
+
+        message.classList.add("lose");
+
+
+        return;
+    }
+
+
+
+    // odświeżenie plansz
 
     renderBoards(
-      boards,
-      player,
-      computer,
-      null,
-      true
+        boards,
+        game.player,
+        game.computer,
+        handlePlayerAttack
     );
-
-        message.textContent = "💀 Computer wins!";
-      message.classList.add("lose");
-
-      gameOver = true;
-      return;
-  }
-
-
-  // odświeżenie plansz po obu ruchach
-  renderBoards(
-    boards,
-    player,
-    computer,
-    handlePlayerAttack
-  );
 
 }
 
 
 
-// pierwsze wyświetlenie plansz
+
 
 renderBoards(
-  boards,
-  player,
-  computer,
-  handlePlayerAttack
+    boards,
+    game.player,
+    game.computer,
+    handlePlayerAttack
 );
