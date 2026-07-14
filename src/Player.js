@@ -23,7 +23,7 @@ export default class Player {
 
     getSmartMove() {
         return getSmartMove(this);
-    }
+    }   
 
 
     clearHits() {
