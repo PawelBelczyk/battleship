@@ -102,3 +102,32 @@ h1 {
   }
 
 }
+
+
+#new-game {
+  margin-bottom: 30px;
+  padding: 14px 30px;
+
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  background: #00bcd4;
+  color: white;
+
+  transition: 0.2s;
+}
+
+#new-game:hover {
+  background: #26c6da;
+  transform: translateY(-2px);
+}
+
+#new-game:active {
+  transform: translateY(0);
+}
