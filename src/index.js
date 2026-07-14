@@ -31,10 +31,18 @@ function computerTurn() {
   console.log("computer:", move);
   console.log("result:", result);
 
+      if (result === "hit") {
 
-  if (result === "hit") {
-    computer.successfulHits.push(move);
-  }
+          computer.successfulHits.push(move);
+
+      }
+
+
+      if (result === "sunk") {
+
+          computer.clearHits();
+
+      }
 }
 
 

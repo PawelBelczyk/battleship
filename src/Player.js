@@ -91,4 +91,8 @@ export default class Player {
 
         return this.getRandomMove();
     }
+
+    clearHits() {
+    this.successfulHits = [];
+  }
 }

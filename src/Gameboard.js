@@ -41,8 +41,17 @@ export default class Gameboard {
             );
 
             if (hit) {
+
                 placedShip.ship.hit();
+
                 this.hitAttacks.push(coordinates);
+
+
+                if (placedShip.ship.isSunk()) {
+                    return "sunk";
+                }
+
+
                 return "hit";
             }
         }
