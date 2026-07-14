@@ -5,28 +5,45 @@ import { getSmartMove } from "./ai.js";
 
 export default class GameController {
 
+
     constructor() {
+
 
         this.player = new Player("human");
 
         this.computer = new Player("computer");
 
 
+
         this.statistics = {
+
             playerHits: 0,
+
             playerMisses: 0,
+
             computerHits: 0,
+
             computerMisses: 0,
+
             turns: 0
+
         };
+
 
 
         this.gameOver = false;
 
 
-        this.placeFleet(this.player.gameboard);
 
-        this.placeFleet(this.computer.gameboard);
+        this.placeFleet(
+            this.player.gameboard
+        );
+
+
+        this.placeFleet(
+            this.computer.gameboard
+        );
+
 
     }
 
@@ -34,15 +51,23 @@ export default class GameController {
 
 
 
+
+
     playerAttack(coordinates) {
 
+
         if(this.gameOver) {
+
             return false;
+
         }
 
 
+
         const result =
-            this.computer.gameboard.receiveAttack(coordinates);
+            this.computer.gameboard.receiveAttack(
+                coordinates
+            );
 
 
 
@@ -68,7 +93,10 @@ export default class GameController {
 
         return result;
 
+
     }
+
+
 
 
 
@@ -80,12 +108,16 @@ export default class GameController {
 
 
         const move =
-            getSmartMove(this.computer);
+            getSmartMove(
+                this.computer
+            );
 
 
 
         const result =
-            this.player.gameboard.receiveAttack(move);
+            this.player.gameboard.receiveAttack(
+                move
+            );
 
 
 
@@ -96,7 +128,9 @@ export default class GameController {
             this.statistics.computerHits++;
 
 
-            this.computer.successfulHits.push(move);
+            this.computer.successfulHits.push(
+                move
+            );
 
 
         }
@@ -116,10 +150,12 @@ export default class GameController {
 
 
 
-
         return move;
 
+
     }
+
+
 
 
 
@@ -130,7 +166,10 @@ export default class GameController {
     checkWinner() {
 
 
-        if(this.computer.gameboard.allShipsSunk()) {
+
+        if(
+            this.computer.gameboard.allShipsSunk()
+        ) {
 
 
             this.gameOver = true;
@@ -138,11 +177,16 @@ export default class GameController {
 
             return "player";
 
+
         }
 
 
 
-        if(this.player.gameboard.allShipsSunk()) {
+
+
+        if(
+            this.player.gameboard.allShipsSunk()
+        ) {
 
 
             this.gameOver = true;
@@ -150,13 +194,16 @@ export default class GameController {
 
             return "computer";
 
+
         }
 
 
 
         return null;
 
+
     }
+
 
 
 
@@ -169,11 +216,17 @@ export default class GameController {
 
 
         const ships = [
+
             5,
+
             4,
+
             3,
+
             3,
+
             2
+
         ];
 
 
@@ -198,14 +251,19 @@ export default class GameController {
 
 
 
+
+
     placeRandomShip(gameboard, length) {
+
 
 
         let placed = false;
 
 
 
+
         while(!placed) {
+
 
 
 
@@ -215,12 +273,20 @@ export default class GameController {
 
 
 
+
+
             const row =
                 horizontal
 
-                ? Math.floor(Math.random() * 10)
+                ? Math.floor(
+                    Math.random() * 10
+                )
 
-                : Math.floor(Math.random() * (11 - length));
+                : Math.floor(
+                    Math.random() * (11 - length)
+                );
+
+
 
 
 
@@ -229,9 +295,16 @@ export default class GameController {
             const col =
                 horizontal
 
-                ? Math.floor(Math.random() * (11 - length))
+                ? Math.floor(
+                    Math.random() * (11 - length)
+                )
 
-                : Math.floor(Math.random() * 10);
+                : Math.floor(
+                    Math.random() * 10
+                );
+
+
+
 
 
 
@@ -243,7 +316,13 @@ export default class GameController {
 
 
 
-            for(let i = 0; i < length; i++) {
+
+
+            for(
+                let i = 0;
+                i < length;
+                i++
+            ) {
 
 
 
@@ -251,15 +330,23 @@ export default class GameController {
 
 
                     coordinates.push(
-                        [row, col + i]
+                        [
+                            row,
+                            col + i
+                        ]
                     );
+
 
 
                 } else {
 
 
+
                     coordinates.push(
-                        [row + i, col]
+                        [
+                            row + i,
+                            col
+                        ]
                     );
 
 
@@ -273,25 +360,17 @@ export default class GameController {
 
 
 
-            const overlap =
-                coordinates.some(([r,c]) =>
 
 
-                    gameboard.ships.some(ship =>
+            const blocked =
+                coordinates.some(
+                    ([r,c]) =>
 
-
-                        ship.coordinates.some(([sr,sc]) =>
-
-
-                            sr === r &&
-                            sc === c
-
-
+                        this.isCoordinateBlocked(
+                            gameboard,
+                            r,
+                            c
                         )
-
-
-                    )
-
 
                 );
 
@@ -302,7 +381,8 @@ export default class GameController {
 
 
 
-            if(!overlap) {
+            if(!blocked) {
+
 
 
                 gameboard.placeShip(
@@ -314,7 +394,9 @@ export default class GameController {
                 );
 
 
+
                 placed = true;
+
 
 
             }
@@ -324,8 +406,45 @@ export default class GameController {
         }
 
 
+    }
+
+
+
+
+
+
+
+
+
+    isCoordinateBlocked(
+        gameboard,
+        row,
+        col
+    ) {
+
+
+
+        return gameboard.ships.some(
+            placedShip =>
+
+
+                placedShip.coordinates.some(
+                    ([shipRow, shipCol]) =>
+
+
+                        Math.abs(shipRow - row) <= 1 &&
+
+                        Math.abs(shipCol - col) <= 1
+
+
+                )
+
+
+        );
+
 
     }
+
 
 
 
