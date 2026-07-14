@@ -68,9 +68,17 @@ export function playerAttack(coordinates) {
 }
 
 export function computerAttack() {
-    const move = computer.getRandomMove();
 
+  const move = computer.getSmartMove();
+
+  const result =
     player.gameboard.receiveAttack(move);
+
+
+  if(result === "hit") {
+    computer.successfulHits.push(move);
+  }
+
 }
 
 export function isGameOver() {

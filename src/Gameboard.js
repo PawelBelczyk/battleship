@@ -43,12 +43,12 @@ export default class Gameboard {
             if (hit) {
                 placedShip.ship.hit();
                 this.hitAttacks.push(coordinates);
-                return true;
+                return "hit";
             }
         }
 
         this.missedAttacks.push(coordinates);
-        return true;
+        return "miss";
     }
 
     allShipsSunk() {

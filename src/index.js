@@ -23,7 +23,7 @@ newGameButton.addEventListener("click", () => {
 
 function computerTurn() {
 
-  const move = computer.getRandomMove();
+  const move = computer.getSmartMove();
 
   player.gameboard.receiveAttack(move);
 
