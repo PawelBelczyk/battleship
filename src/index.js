@@ -1,15 +1,24 @@
 import GameController from "./GameController.js";
-import { renderBoards, updateStats} from "./dom.js";
-
-
-const boards = document.querySelector("#boards");
-
-const message = document.querySelector("#message");
-
-const newGameButton = document.querySelector("#new-game");
+import { createBoard, updateStats } from "./dom.js";
 
 
 const game = new GameController();
+
+
+const playerBoard =
+    document.querySelector("#player-board");
+
+
+const computerBoard =
+    document.querySelector("#computer-board");
+
+
+const message =
+    document.querySelector("#message");
+
+
+const newGameButton =
+    document.querySelector("#new-game");
 
 
 
@@ -17,9 +26,61 @@ let gameOver = false;
 
 
 
-newGameButton.addEventListener("click", () => {
-    location.reload();
-});
+
+newGameButton.addEventListener(
+    "click",
+    () => {
+
+        location.reload();
+
+    }
+);
+
+
+
+
+
+
+
+function refreshBoards() {
+
+
+    createBoard(
+
+        playerBoard,
+
+        game.player.gameboard,
+
+        false
+
+    );
+
+
+
+    createBoard(
+
+        computerBoard,
+
+        game.computer.gameboard,
+
+        true,
+
+        handlePlayerAttack
+
+    );
+
+
+
+    updateStats(
+        game.statistics
+    );
+
+
+}
+
+
+
+
 
 
 
@@ -27,19 +88,38 @@ newGameButton.addEventListener("click", () => {
 
 function handlePlayerAttack(coordinates) {
 
-    if (gameOver) {
+
+    if(gameOver) {
+
         return;
+
     }
+
+
+
 
 
     const result =
         game.playerAttack(coordinates);
-        updateStats(game.statistics);
 
-    // kliknięcie już zaatakowanego pola
-    if (result === false) {
+
+
+
+
+    if(result === false) {
+
         return;
+
     }
+
+
+
+
+
+    refreshBoards();
+
+
+
 
 
 
@@ -48,33 +128,62 @@ function handlePlayerAttack(coordinates) {
 
 
 
-    if (winner === "player") {
+
+
+    if(winner === "player") {
+
 
         gameOver = true;
 
 
-        renderBoards(
-            boards,
-            game.player,
-            game.computer,
-            null,
-            true
+        createBoard(
+
+            playerBoard,
+
+            game.player.gameboard,
+
+            false
+
         );
 
 
-        message.textContent = "🏆 You win!";
-        message.classList.add("win");
+        createBoard(
+
+            computerBoard,
+
+            game.computer.gameboard,
+
+            false
+
+        );
+
+
+
+        message.textContent =
+            "🏆 You win!";
+
+
+        message.classList.add(
+            "win"
+        );
 
 
         return;
+
     }
+
+
+
+
 
 
 
     // ruch komputera
 
     game.computerTurn();
-    updateStats(game.statistics);
+
+
+
 
 
     const computerWinner =
@@ -82,39 +191,50 @@ function handlePlayerAttack(coordinates) {
 
 
 
-    if (computerWinner === "computer") {
+
+
+    refreshBoards();
+
+
+
+
+
+
+    if(computerWinner === "computer") {
+
 
         gameOver = true;
 
 
-        renderBoards(
-            boards,
-            game.player,
-            game.computer,
-            null,
-            true
+
+        createBoard(
+
+            computerBoard,
+
+            game.computer.gameboard,
+
+            false
+
         );
+
 
 
         message.textContent =
             "💀 Computer wins!";
 
-        message.classList.add("lose");
+
+        message.classList.add(
+            "lose"
+        );
+
 
 
         return;
+
     }
 
 
 
-    // odświeżenie plansz
-
-    renderBoards(
-        boards,
-        game.player,
-        game.computer,
-        handlePlayerAttack
-    );
 
 }
 
@@ -122,9 +242,10 @@ function handlePlayerAttack(coordinates) {
 
 
 
-renderBoards(
-    boards,
-    game.player,
-    game.computer,
-    handlePlayerAttack
-);
+
+
+
+
+// start gry
+
+refreshBoards();  

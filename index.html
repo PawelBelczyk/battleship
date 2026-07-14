@@ -1,60 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Battleship</title>
+
   <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<h1>Battleship</h1>
-<div id="message"></div>
-<button id="new-game">New game</button>
-<div id="boards"></div>
 
-<div id="stats">
+<header>
 
-    <div>
-        <h3>Player</h3>
+    <h1>⚓ Battleship</h1>
 
-        <p>Hits:
-            <span id="player-hits">0</span>
+    <div id="message"></div>
+
+    <button id="new-game">
+        New Game
+    </button>
+
+</header>
+
+
+
+
+
+<main id="game-area">
+
+
+
+    <!-- PLAYER -->
+
+    <section class="board-container">
+
+
+        <div class="stats-card">
+
+            <h2>👤 Player</h2>
+
+
+            <p>
+                🎯 Hits:
+                <span id="player-hits">
+                    0
+                </span>
+            </p>
+
+
+            <p>
+                🌊 Misses:
+                <span id="player-misses">
+                    0
+                </span>
+            </p>
+
+
+        </div>
+
+
+
+        <div id="player-board"></div>
+
+
+    </section>
+
+
+
+
+
+
+
+    <!-- CENTER -->
+
+    <section class="game-info">
+
+
+        <h2>⚔️ Battle</h2>
+
+
+        <p>
+            Turns:
+            <span id="turns">
+                0
+            </span>
         </p>
 
-        <p>Misses:
-            <span id="player-misses">0</span>
-        </p>
 
-    </div>
+    </section>
 
 
-    <div>
-        <h3>Game</h3>
-
-        <p>Turns:
-            <span id="turns">0</span>
-        </p>
-
-    </div>
 
 
-    <div>
-        <h3>Computer</h3>
 
-        <p>Hits:
-            <span id="computer-hits">0</span>
-        </p>
 
-        <p>Misses:
-            <span id="computer-misses">0</span>
-        </p>
 
-    </div>
+    <!-- COMPUTER -->
 
-</div>
+    <section class="board-container">
+
+
+        <div class="stats-card">
+
+
+            <h2>🤖 Computer</h2>
+
+
+
+            <p>
+                🎯 Hits:
+                <span id="computer-hits">
+                    0
+                </span>
+            </p>
+
+
+
+            <p>
+                🌊 Misses:
+                <span id="computer-misses">
+                    0
+                </span>
+            </p>
+
+
+
+        </div>
+
+
+
+
+        <div id="computer-board"></div>
+
+
+
+    </section>
+
+
+
+</main>
+
+
+
+
 
 <script type="module" src="./src/index.js"></script>
 
+
 </body>
+
 </html>

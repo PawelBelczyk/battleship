@@ -1,108 +1,181 @@
 export function createBoard(
-  element,
-  gameboard,
-  hideShips = false,
-  onCellClick = null
+    element,
+    gameboard,
+    hideShips = false,
+    onCellClick = null
 ) {
 
-  const board = document.createElement("div");
 
-  board.classList.add("board");
-
-
-  for (let row = 0; row < 10; row++) {
-
-    for (let col = 0; col < 10; col++) {
-
-      const cell = document.createElement("div");
-
-      cell.dataset.row = row;
-      cell.dataset.col = col;
+    element.innerHTML = "";
 
 
-      if (onCellClick) {
-        cell.addEventListener("click", () => {
-          onCellClick([row, col]);
-        });
-      }
+    const board = document.createElement("div");
+
+    board.classList.add("board");
 
 
-      const hasShip = gameboard.ships.some((placedShip) =>
-        placedShip.coordinates.some(
-          ([shipRow, shipCol]) =>
-            shipRow === row && shipCol === col
-        )
-      );
+
+    for(let row = 0; row < 10; row++) {
 
 
-      const wasHit = gameboard.hitAttacks.some(
-        ([hitRow, hitCol]) =>
-          hitRow === row && hitCol === col
-      );
+        for(let col = 0; col < 10; col++) {
 
 
-      const wasMiss = gameboard.missedAttacks.some(
-        ([missRow, missCol]) =>
-          missRow === row && missCol === col
-      );
+            const cell =
+                document.createElement("div");
 
 
-      if (hasShip && !hideShips) {
-        cell.classList.add("ship");
-      }
+            cell.classList.add("cell");
 
 
-      if (wasHit) {
-        cell.textContent = "💥";
-      }
+            cell.dataset.row = row;
+
+            cell.dataset.col = col;
 
 
-      if (wasMiss) {
-        cell.textContent = "🌊";
-      }
 
 
-      board.appendChild(cell);
+            if(onCellClick) {
+
+
+                cell.addEventListener(
+                    "click",
+                    () => {
+
+                        onCellClick(
+                            [row,col]
+                        );
+
+                    }
+                );
+
+
+            }
+
+
+
+
+
+
+            const placedShip =
+                gameboard.ships.find(ship =>
+
+                    ship.coordinates.some(
+                        ([shipRow, shipCol]) =>
+
+                            shipRow === row &&
+                            shipCol === col
+
+                    )
+
+                );
+
+
+
+
+
+            if(placedShip && !hideShips) {
+
+
+                cell.classList.add("ship");
+
+
+            }
+
+
+
+
+
+
+
+
+            const wasHit =
+                gameboard.hitAttacks.some(
+                    ([hitRow, hitCol]) =>
+
+                        hitRow === row &&
+                        hitCol === col
+
+                );
+
+
+
+
+
+            const wasMiss =
+                gameboard.missedAttacks.some(
+                    ([missRow, missCol]) =>
+
+                        missRow === row &&
+                        missCol === col
+
+                );
+
+
+
+
+
+
+
+
+            if(wasHit) {
+
+                cell.textContent = "💥";
+
+                cell.classList.add("hit");
+
+            }
+
+
+
+
+
+
+
+            if(wasMiss) {
+
+                cell.textContent = "🌊";
+
+                cell.classList.add("miss");
+
+            }
+
+
+
+
+
+
+            board.appendChild(cell);
+
+
+        }
+
+
     }
-  }
 
 
-  element.appendChild(board);
+
+
+
+    element.appendChild(board);
+
+
 }
 
 
 
-export function renderBoards(
-  container,
-  player,
-  computer,
-  onCellClick,
-  revealComputerShips = false
-) {
-
-  container.innerHTML = "";
 
 
-  createBoard(
-    container,
-    player.gameboard,
-    false
-  );
 
 
-  createBoard(
-    container,
-    computer.gameboard,
-    !revealComputerShips,
-    revealComputerShips ? null : onCellClick
-  );
-}
 
 export function updateStats(statistics) {
+
 
     document.querySelector("#player-hits")
         .textContent =
         statistics.playerHits;
+
 
 
     document.querySelector("#player-misses")
@@ -110,9 +183,13 @@ export function updateStats(statistics) {
         statistics.playerMisses;
 
 
+
+
     document.querySelector("#computer-hits")
         .textContent =
         statistics.computerHits;
+
+
 
 
     document.querySelector("#computer-misses")
@@ -120,8 +197,11 @@ export function updateStats(statistics) {
         statistics.computerMisses;
 
 
+
+
     document.querySelector("#turns")
         .textContent =
         statistics.turns;
+
 
 }
