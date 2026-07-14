@@ -7,6 +7,9 @@ const boards = document.querySelector("#boards");
 
 const newGameButton = document.querySelector("#new-game");
 
+
+const message = document.querySelector("#message");
+
 newGameButton.addEventListener("click", () => {
   location.reload();
 });
@@ -45,8 +48,8 @@ function handlePlayerAttack(coordinates) {
       handlePlayerAttack
     );
 
-    alert("You win!");
-    return;
+        message.textContent = "🏆 You win!";
+      message.classList.add("win");
   }
 
 
@@ -64,8 +67,8 @@ function handlePlayerAttack(coordinates) {
       handlePlayerAttack
     );
 
-    alert("Computer wins!");
-    return;
+        message.textContent = "💀 Computer wins!";
+      message.classList.add("lose");
   }
 
 
