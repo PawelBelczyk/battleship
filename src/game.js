@@ -1,6 +1,6 @@
 import Player from "./Player.js";
 import Ship from "./Ship.js";
-
+import { getSmartMove } from "./ai.js";
 
 
 

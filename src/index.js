@@ -1,5 +1,6 @@
 import { player, computer, playerAttack } from "./game.js";
 import { renderBoards } from "./dom.js";
+import { getSmartMove } from "./ai.js";
 
 
 let gameOver = false;
@@ -23,7 +24,8 @@ newGameButton.addEventListener("click", () => {
 
 function computerTurn() {
 
-  const move = computer.getSmartMove();
+const move = getSmartMove(computer);
+
 
   const result = player.gameboard.receiveAttack(move);
 
