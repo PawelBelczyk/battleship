@@ -11,6 +11,16 @@ export default class GameController {
 
         this.computer = new Player("computer");
 
+
+        this.statistics = {
+            playerHits: 0,
+            playerMisses: 0,
+            computerHits: 0,
+            computerMisses: 0,
+            turns: 0
+        };
+
+
         this.gameOver = false;
 
 
@@ -22,15 +32,38 @@ export default class GameController {
 
 
 
+
+
     playerAttack(coordinates) {
 
         if(this.gameOver) {
-            return;
+            return false;
         }
 
 
         const result =
             this.computer.gameboard.receiveAttack(coordinates);
+
+
+
+        if(result === "hit") {
+
+            this.statistics.playerHits++;
+
+        }
+
+
+
+        if(result === "miss") {
+
+            this.statistics.playerMisses++;
+
+        }
+
+
+
+        this.statistics.turns++;
+
 
 
         return result;
@@ -39,28 +72,49 @@ export default class GameController {
 
 
 
+
+
+
+
     computerTurn() {
+
 
         const move =
             getSmartMove(this.computer);
+
 
 
         const result =
             this.player.gameboard.receiveAttack(move);
 
 
+
+
         if(result === "hit") {
+
+
+            this.statistics.computerHits++;
+
 
             this.computer.successfulHits.push(move);
 
+
+        }
+
+
+
+
+
+        if(result === "miss") {
+
+
+            this.statistics.computerMisses++;
+
+
         }
 
 
-        if(result === "sunk") {
 
-            this.computer.clearHits();
-
-        }
 
 
         return move;
@@ -69,24 +123,35 @@ export default class GameController {
 
 
 
+
+
+
+
     checkWinner() {
+
 
         if(this.computer.gameboard.allShipsSunk()) {
 
+
             this.gameOver = true;
+
 
             return "player";
 
         }
 
 
+
         if(this.player.gameboard.allShipsSunk()) {
 
+
             this.gameOver = true;
+
 
             return "computer";
 
         }
+
 
 
         return null;
@@ -95,7 +160,13 @@ export default class GameController {
 
 
 
+
+
+
+
+
     placeFleet(gameboard) {
+
 
         const ships = [
             5,
@@ -106,93 +177,156 @@ export default class GameController {
         ];
 
 
+
         ships.forEach(length => {
+
 
             this.placeRandomShip(
                 gameboard,
                 length
             );
 
+
         });
 
+
     }
+
+
+
+
 
 
 
     placeRandomShip(gameboard, length) {
 
+
         let placed = false;
 
 
+
         while(!placed) {
+
+
 
             const horizontal =
                 Math.random() < 0.5;
 
 
+
+
             const row =
                 horizontal
-                ? Math.floor(Math.random()*10)
-                : Math.floor(Math.random()*(11-length));
+
+                ? Math.floor(Math.random() * 10)
+
+                : Math.floor(Math.random() * (11 - length));
+
+
+
 
 
             const col =
                 horizontal
-                ? Math.floor(Math.random()*(11-length))
-                : Math.floor(Math.random()*10);
+
+                ? Math.floor(Math.random() * (11 - length))
+
+                : Math.floor(Math.random() * 10);
 
 
 
-            const coordinates=[];
+
+
+            const coordinates = [];
 
 
 
-            for(let i=0;i<length;i++) {
+
+
+            for(let i = 0; i < length; i++) {
+
+
 
                 if(horizontal) {
 
+
                     coordinates.push(
-                        [row,col+i]
+                        [row, col + i]
                     );
+
 
                 } else {
 
+
                     coordinates.push(
-                        [row+i,col]
+                        [row + i, col]
                     );
+
 
                 }
 
+
             }
+
+
+
 
 
 
             const overlap =
                 coordinates.some(([r,c]) =>
+
+
                     gameboard.ships.some(ship =>
-                        ship.coordinates.some(
-                            ([sr,sc]) =>
-                                sr===r &&
-                                sc===c
+
+
+                        ship.coordinates.some(([sr,sc]) =>
+
+
+                            sr === r &&
+                            sc === c
+
+
                         )
+
+
                     )
+
+
                 );
+
+
+
+
+
 
 
 
             if(!overlap) {
 
+
                 gameboard.placeShip(
+
                     new Ship(length),
+
                     coordinates
+
                 );
 
-                placed=true;
+
+                placed = true;
+
 
             }
 
+
+
         }
 
+
+
     }
+
+
 
 }

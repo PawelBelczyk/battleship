@@ -97,3 +97,31 @@ export function renderBoards(
     revealComputerShips ? null : onCellClick
   );
 }
+
+export function updateStats(statistics) {
+
+    document.querySelector("#player-hits")
+        .textContent =
+        statistics.playerHits;
+
+
+    document.querySelector("#player-misses")
+        .textContent =
+        statistics.playerMisses;
+
+
+    document.querySelector("#computer-hits")
+        .textContent =
+        statistics.computerHits;
+
+
+    document.querySelector("#computer-misses")
+        .textContent =
+        statistics.computerMisses;
+
+
+    document.querySelector("#turns")
+        .textContent =
+        statistics.turns;
+
+}

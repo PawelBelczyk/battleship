@@ -3,7 +3,13 @@ import Ship from "./Ship.js";
 import { getSmartMove } from "./ai.js";
 
 
-
+const statistics = {
+    playerHits: 0,
+    playerMisses: 0,
+    computerHits: 0,
+    computerMisses: 0,
+    turns: 0
+};
 
 const player = new Player("human");
 const computer = new Player("computer");
@@ -61,12 +67,32 @@ placeFleet(computer.gameboard);
 
 
 
-export {player, computer};
-
+export {player, computer, statistics};
 export function playerAttack(coordinates) {
-    return computer.gameboard.receiveAttack(coordinates);
-}
 
+    const result =
+        computer.gameboard.receiveAttack(coordinates);
+
+
+    if(result === "hit" || result === "sunk") {
+
+        statistics.playerHits++;
+
+    }
+
+
+    if(result === "miss") {
+
+        statistics.playerMisses++;
+
+    }
+
+
+    statistics.turns++;
+
+
+    return result;
+}
  
 
 export function isGameOver() {
@@ -89,4 +115,33 @@ export function isGameOver() {
 
   );
 
+}
+
+export function computerAttack() {
+
+    const move = getSmartMove(computer);
+
+
+    const result =
+        player.gameboard.receiveAttack(move);
+
+
+
+    if(result === "hit" || result === "sunk") {
+
+        statistics.computerHits++;
+
+        computer.successfulHits.push(move);
+
+    }
+
+
+    if(result === "miss") {
+
+        statistics.computerMisses++;
+
+    }
+
+
+    return result;
 }

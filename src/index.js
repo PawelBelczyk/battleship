@@ -1,5 +1,5 @@
 import GameController from "./GameController.js";
-import { renderBoards } from "./dom.js";
+import { renderBoards, updateStats} from "./dom.js";
 
 
 const boards = document.querySelector("#boards");
@@ -34,7 +34,7 @@ function handlePlayerAttack(coordinates) {
 
     const result =
         game.playerAttack(coordinates);
-
+        updateStats(game.statistics);
 
     // kliknięcie już zaatakowanego pola
     if (result === false) {
@@ -74,7 +74,7 @@ function handlePlayerAttack(coordinates) {
     // ruch komputera
 
     game.computerTurn();
-
+    updateStats(game.statistics);
 
 
     const computerWinner =
