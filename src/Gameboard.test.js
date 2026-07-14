@@ -41,4 +41,11 @@ test("places a ship on the board", () => {
         expect(ship.hits).toBe(1);
     });
 
-        
+
+    test("stores missed attacks", () => {
+        const board = new Gameboard();
+
+        board.receiveAttack([5,5]);
+
+        expect(board.missedAttacks).toEqual([[5,5]]);
+    });

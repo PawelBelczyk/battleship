@@ -1,6 +1,7 @@
 export default class Gameboard {
     constructor() {
         this.ships = [];
+        this.missedAttacks = [];
     }
 
 
@@ -23,8 +24,10 @@ export default class Gameboard {
                 return;
             }
         }
-    }
 
+
+        this.missedAttacks.push(coordinates);
+    }
 
 }
 
