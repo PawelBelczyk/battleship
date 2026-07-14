@@ -2,6 +2,7 @@ export default class Gameboard {
     constructor() {
         this.ships = [];
         this.missedAttacks = [];
+        this.hitAttacks = [];
     }
 
 
@@ -21,12 +22,20 @@ export default class Gameboard {
             );
             if (hit) {
                 placedShip.ship.hit();
+                this.hitAttacks.push(coordinates);
                 return;
             }
         }
 
 
         this.missedAttacks.push(coordinates);
+    }
+
+
+        allShipsSunk() {
+    return this.ships.every((placedShip) =>
+        placedShip.ship.isSunk()
+    );
     }
 
 }

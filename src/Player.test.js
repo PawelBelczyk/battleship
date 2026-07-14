@@ -27,3 +27,26 @@ test("computer generates attack coordinates",() => {
         expect(move.length).toBe(2);
     
 });
+
+test("computer does not repeat moves", () => {
+
+  const computer = new Player("computer");
+
+  const moves = [];
+
+  for(let i = 0; i < 100; i++) {
+    moves.push(
+      computer.getRandomMove()
+    );
+  }
+
+
+  const uniqueMoves = new Set(
+    moves.map(move => move.toString())
+  );
+
+
+  expect(uniqueMoves.size)
+    .toBe(100);
+
+});
