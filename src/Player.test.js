@@ -8,3 +8,8 @@ test("creates a player with a gameboard",() => {
 });
 
     
+
+test("creates a human player", () => {
+    const player = new Player("human");
+    expect(player.type).toBe("human");
+});
