@@ -50,3 +50,29 @@ test("computer does not repeat moves", () => {
     .toBe(100);
 
 });
+
+test("computer does not repeat moves", () => {
+    const player = new Player("computer");
+
+    const move1 = player.getRandomMove();
+    const move2 = player.getRandomMove();
+
+    expect(move1).not.toEqual(move2);
+});
+
+test("smart move attacks next to successful hit", () => {
+
+    const player = new Player("computer");
+
+    player.successfulHits.push([5,5]);
+
+    const move = player.getSmartMove();
+
+    expect([
+        [4,5],
+        [6,5],
+        [5,4],
+        [5,6]
+    ]).toContainEqual(move);
+
+});
