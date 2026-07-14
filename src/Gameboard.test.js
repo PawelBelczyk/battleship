@@ -26,3 +26,19 @@ test("places a ship on the board", () => {
          }
         ]);
     });
+
+
+    test("receiveAttack() hits the correct ship",() => {
+        const board= new Gameboard();
+        const ship = new Ship(3);
+
+        board.placeShip(ship, [
+            [0,0],
+            [0,1],
+            [0,2],
+        ]);
+        board.receiveAttack([0,1]);
+        expect(ship.hits).toBe(1);
+    });
+
+        
