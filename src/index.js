@@ -3,7 +3,7 @@ import { renderBoards } from "./dom.js";
 
 
 let gameOver = false;
-
+let revealComputerShips = false;
 
 const boards = document.querySelector("#boards");
 
@@ -48,18 +48,23 @@ function handlePlayerAttack(coordinates) {
 
   // sprawdzamy czy gracz wygrał
   if (computer.gameboard.allShipsSunk()) {
+    
+    gameOver = true;
 
+    revealComputerShips = true;
+    
     renderBoards(
       boards,
       player,
       computer,
-      handlePlayerAttack
+    null,
+    true
     );
 
         message.textContent = "🏆 You win!";
       message.classList.add("win");
 
-      gameOver = true;
+      
 
       return;
   }
@@ -72,11 +77,13 @@ function handlePlayerAttack(coordinates) {
   // sprawdzamy czy komputer wygrał
   if (player.gameboard.allShipsSunk()) {
 
+    revealComputerShips = true;
+
     renderBoards(
       boards,
       player,
-      computer,
-      handlePlayerAttack
+      null,
+      true
     );
 
         message.textContent = "💀 Computer wins!";

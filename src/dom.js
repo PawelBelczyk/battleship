@@ -76,7 +76,8 @@ export function renderBoards(
   container,
   player,
   computer,
-  onCellClick
+  onCellClick,
+  revealComputerShips = false
 ) {
 
   container.innerHTML = "";
@@ -92,7 +93,7 @@ export function renderBoards(
   createBoard(
     container,
     computer.gameboard,
-    true,
-    onCellClick
+    !revealComputerShips,
+    revealComputerShips ? null : onCellClick
   );
 }
