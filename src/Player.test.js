@@ -76,3 +76,9 @@ test("smart move attacks next to successful hit", () => {
     ]).toContainEqual(move);
 
 });
+
+test("player has its own gameboard", () => {
+    const player = new Player("human");
+
+    expect(player.gameboard).toBeDefined();
+});

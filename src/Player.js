@@ -1,5 +1,5 @@
 import Gameboard from "./Gameboard.js";
-
+import { getRandomMove, getSmartMove } from "./ai.js";
 
 export default class Player {
 
@@ -13,6 +13,16 @@ export default class Player {
 
         this.successfulHits = [];
 
+    }
+
+
+    getRandomMove() {
+        return getRandomMove(this);
+    }
+
+
+    getSmartMove() {
+        return getSmartMove(this);
     }
 
 
