@@ -25,8 +25,16 @@ function computerTurn() {
 
   const move = computer.getSmartMove();
 
-  player.gameboard.receiveAttack(move);
+  const result = player.gameboard.receiveAttack(move);
 
+
+  console.log("computer:", move);
+  console.log("result:", result);
+
+
+  if (result === "hit") {
+    computer.successfulHits.push(move);
+  }
 }
 
 
@@ -82,6 +90,7 @@ function handlePlayerAttack(coordinates) {
     renderBoards(
       boards,
       player,
+      computer,
       null,
       true
     );
