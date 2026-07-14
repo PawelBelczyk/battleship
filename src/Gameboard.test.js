@@ -62,3 +62,12 @@ test("places a ship on the board", () => {
         board.receiveAttack([0,1]);
         expect(board.hitAttacks).toEqual([[0,1]]);
     })
+
+
+    test("cannot attack the same coordinate twice", () => {
+  const board = new Gameboard();
+
+  board.receiveAttack([5, 5]);
+
+  expect(board.receiveAttack([5, 5])).toBe(false);
+});

@@ -27,7 +27,12 @@ function computerTurn() {
 
 function handlePlayerAttack(coordinates) {
 
-  playerAttack(coordinates);
+ 
+    const attackSuccessful = playerAttack(coordinates);
+
+    if (!attackSuccessful) {
+      return;
+    }
 
 
   // sprawdzamy czy gracz wygrał

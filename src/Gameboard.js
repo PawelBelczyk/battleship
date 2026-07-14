@@ -5,7 +5,6 @@ export default class Gameboard {
         this.hitAttacks = [];
     }
 
-
     placeShip(ship, coordinates) {
         this.ships.push({
             ship,
@@ -13,30 +12,48 @@ export default class Gameboard {
         });
     }
 
+    hasAlreadyBeenAttacked(coordinates) {
+        const hit = this.hitAttacks.some(
+            ([row, col]) =>
+                row === coordinates[0] &&
+                col === coordinates[1]
+        );
+
+        const miss = this.missedAttacks.some(
+            ([row, col]) =>
+                row === coordinates[0] &&
+                col === coordinates[1]
+        );
+
+        return hit || miss;
+    }
 
     receiveAttack(coordinates) {
+        if (this.hasAlreadyBeenAttacked(coordinates)) {
+            return false;
+        }
+
         for (const placedShip of this.ships) {
             const hit = placedShip.coordinates.some(
-                ([row, col]) => 
-                    row === coordinates[0] && col === coordinates[1]
+                ([row, col]) =>
+                    row === coordinates[0] &&
+                    col === coordinates[1]
             );
+
             if (hit) {
                 placedShip.ship.hit();
                 this.hitAttacks.push(coordinates);
-                return;
+                return true;
             }
         }
 
-
         this.missedAttacks.push(coordinates);
+        return true;
     }
 
-
-        allShipsSunk() {
-    return this.ships.every((placedShip) =>
-        placedShip.ship.isSunk()
-    );
+    allShipsSunk() {
+        return this.ships.every((placedShip) =>
+            placedShip.ship.isSunk()
+        );
     }
-
 }
-
