@@ -36,3 +36,15 @@ src/
 ├── ai.js
 ├── dom.js
 └── index.js
+## Screenshots
+
+### Game board
+![Game board](./screenshots/game-board.png)
+
+### Ship placement
+![Ship placement](./screenshots/ship-placement.png)
+
+### Game result
+![Game result](./screenshots/game-result.png)
+
+
