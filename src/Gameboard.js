@@ -28,38 +28,38 @@ export default class Gameboard {
         return hit || miss;
     }
 
-    receiveAttack(coordinates) {
-        if (this.hasAlreadyBeenAttacked(coordinates)) {
-            return false;
-        }
+            receiveAttack(coordinates) {
 
-        for (const placedShip of this.ships) {
-            const hit = placedShip.coordinates.some(
-                ([row, col]) =>
-                    row === coordinates[0] &&
-                    col === coordinates[1]
-            );
-
-            if (hit) {
-
-                placedShip.ship.hit();
-
-                this.hitAttacks.push(coordinates);
-
-
-                if (placedShip.ship.isSunk()) {
-                    return "sunk";
+                if (this.hasAlreadyBeenAttacked(coordinates)) {
+                    return false;
                 }
 
+                for (const placedShip of this.ships) {
 
-                return "hit";
+                    const hit = placedShip.coordinates.some(
+                        ([row, col]) =>
+                            row === coordinates[0] &&
+                            col === coordinates[1]
+                    );
+
+                    if (hit) {
+
+                        placedShip.ship.hit();
+
+                        this.hitAttacks.push(coordinates);
+
+                        if (placedShip.ship.isSunk()) {
+                            return "sunk";
+                        }
+
+                        return "hit";
+                    }
+                }
+
+                this.missedAttacks.push(coordinates);
+
+                return "miss";
             }
-        }
-
-        this.missedAttacks.push(coordinates);
-        return "miss";
-    }
-
     allShipsSunk() {
         return this.ships.every((placedShip) =>
             placedShip.ship.isSunk()

@@ -104,59 +104,44 @@ export default class GameController {
 
 
 
-    computerTurn() {
+            computerTurn() {
+
+            const move = getSmartMove(this.computer);
+
+            const result =
+                this.player.gameboard.receiveAttack(move);
 
 
-        const move =
-            getSmartMove(
-                this.computer
-            );
+            if (result === "hit") {
+
+                this.statistics.computerHits++;
+
+                this.computer.successfulHits.push(move);
+
+            }
 
 
+            if (result === "sunk") {
 
-        const result =
-            this.player.gameboard.receiveAttack(
-                move
-            );
+                this.statistics.computerHits++;
 
+                this.computer.successfulHits.push(move);
 
+                this.computer.clearHits();
 
-
-        if(result === "hit") {
-
-
-            this.statistics.computerHits++;
+            }
 
 
-            this.computer.successfulHits.push(
-                move
-            );
+            if (result === "miss") {
+
+                this.statistics.computerMisses++;
+
+            }
 
 
-        }
-
-
-
-
-
-        if(result === "miss") {
-
-
-            this.statistics.computerMisses++;
-
+            return move;
 
         }
-
-
-
-
-        return move;
-
-
-    }
-
-
-
 
 
 
